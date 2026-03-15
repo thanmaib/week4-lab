@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant User
+    participant MainProgram
+    participant Operations
+    participant DataProgram
+
+    User->>MainProgram: Start app / Select menu option
+    MainProgram->>Operations: CALL with operation type (TOTAL, CREDIT, DEBIT)
+    Operations->>DataProgram: CALL with 'READ' (get balance)
+    DataProgram-->>Operations: Return balance
+    alt Credit
+        Operations->>User: Prompt for credit amount
+        User-->>Operations: Enter amount
+        Operations->>DataProgram: CALL with 'WRITE' (update balance)
+    else Debit
+        Operations->>User: Prompt for debit amount
+        User-->>Operations: Enter amount
+        Operations->>DataProgram: CALL with 'WRITE' (if sufficient funds)
+    end
+    Operations-->>MainProgram: Display result
+    MainProgram-->>User: Show output / menu
